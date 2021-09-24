@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mongo.posts.models.embedded.Author;
 import com.mongo.posts.models.embedded.Comment;
 
@@ -15,6 +16,8 @@ public class Post {
 
 	@Id
 	private String id;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Instant moment;
 	private String title;
 	private String body;

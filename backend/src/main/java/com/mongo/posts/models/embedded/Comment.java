@@ -2,9 +2,13 @@ package com.mongo.posts.models.embedded;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Comment {
 
 	private String text;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Instant moment;
 	
 	private Author author;
