@@ -1,6 +1,10 @@
 package com.mongo.posts.models.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
@@ -9,15 +13,18 @@ public class User {
 	@Id
 	private String id;
 	private String name;
-	private String emial;
+	private String email;
+	
+	@DBRef(lazy = true) //pra não carregar os posts automaticamente
+	private List<Post> posts = new ArrayList<>();
 
 	public User() {
 	}
 
-	public User(String id, String name, String emial) {
+	public User(String id, String name, String email) {
 		this.id = id;
 		this.name = name;
-		this.emial = emial;
+		this.email = email;
 	}
 
 	public String getId() {
@@ -36,11 +43,11 @@ public class User {
 		this.name = name;
 	}
 
-	public String getEmial() {
-		return emial;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmial(String emial) {
-		this.emial = emial;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
