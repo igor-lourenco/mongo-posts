@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.mongo.posts.models.dto.PostDTO;
 import com.mongo.posts.models.dto.UserDTO;
 import com.mongo.posts.services.UserService;
 
@@ -55,5 +56,11 @@ public class UserResource {
 	public ResponseEntity<UserDTO> delete(@PathVariable String id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String id){
+		List<PostDTO> entity = service.getUserPosts(id);
+		return ResponseEntity.ok().body(entity);			
 	}
 }
