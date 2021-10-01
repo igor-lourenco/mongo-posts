@@ -1,5 +1,7 @@
 package com.mongo.posts.services;
 
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +31,23 @@ public class PostService {
 		return lista.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
 	}
 	
+	public List<PostDTO> fullSearch(String text, String start, String end){
+		Instant startMoment = convertMoment(start, Instant.ofEpochMilli(0L));
+		Instant endMoment = convertMoment(end, Instant.now());
+		List<Post> lista = repository.fullSearch(text, startMoment, endMoment);
+		return lista.stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+	}
 	
+	
+	private Instant convertMoment(String original, Instant alternative) {
+		
+		try {
+			return Instant.parse(original);
+		} catch (DateTimeParseException e) {
+			return alternative;
+		}
+	}
+
 	private Post getEntityById(String id) {
 		Optional<Post> obj = repository.findById(id);
 		return  obj.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado -> " + id));
