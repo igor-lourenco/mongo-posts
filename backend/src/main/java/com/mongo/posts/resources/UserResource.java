@@ -19,6 +19,8 @@ import com.mongo.posts.models.dto.PostDTO;
 import com.mongo.posts.models.dto.UserDTO;
 import com.mongo.posts.services.UserService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
@@ -26,18 +28,21 @@ public class UserResource {
 	@Autowired
 	private UserService service;
 	
+	@ApiOperation(value="Lista os usuários")
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll(){
 		List<UserDTO> entity = service.findAll();
 		return ResponseEntity.ok().body(entity);
 	}
 	
+	@ApiOperation(value="Busca por id")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> findById(@PathVariable String id){
 		UserDTO entity = service.findById(id);
 		return ResponseEntity.ok().body(entity);			
 	}
 	
+	@ApiOperation(value="Insere novo usuário")
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO dto){
 		dto = service.insert(dto);
@@ -46,18 +51,21 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
+	@ApiOperation(value="Atualiza usuário")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> update(@PathVariable String id, @RequestBody UserDTO dto){
 		dto = service.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
+	@ApiOperation(value="Deleta usuário")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<UserDTO> delete(@PathVariable String id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Lista os posts do usuário")
 	@GetMapping(value = "/{id}/posts")
 	public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String id){
 		List<PostDTO> entity = service.getUserPosts(id);
